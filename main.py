@@ -6,14 +6,14 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
 
-# Load environment variables
+
 load_dotenv()
 
-# Initialize sentiment analysis model
+
 emotion_classifier = pipeline("text-classification", 
                             model="bhadresh-savani/distilbert-base-uncased-emotion")
 
-# Spotify API setup
+
 def get_spotify_client():
     try:
         client_id = os.getenv("SPOTIFY_CLIENT_ID")
@@ -29,7 +29,7 @@ def get_spotify_client():
         st.error(f"Error connecting to Spotify: {str(e)}")
         return None
 
-# Get playlists based on emotion
+
 def get_playlists_by_emotion(emotion, limit=5):
     try:
         sp = get_spotify_client()
@@ -44,14 +44,14 @@ def get_playlists_by_emotion(emotion, limit=5):
         st.error(f"Error searching playlists: {str(e)}")
         return None
 
-# Streamlit UI
+
 st.title("Emotion-Based Playlist Generator")
 user_input = st.text_area("How are you feeling today?")
 
 if st.button("Generate Playlist"):
     if user_input:
         try:
-            # Sentiment analysis
+            
             emotion_result = emotion_classifier(user_input)[0]
             emotion = emotion_result['label']
             confidence = emotion_result['score']
